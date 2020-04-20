@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Teacher</title>
+</head>
+<body>
+<form action="<?php echo $_SERVER['PHP_SELF'];?>" method="post">
+	<div id= "buttons_panel">
+		<?php echo get_buttons(); ?>
+	</div>
+</form>
+<?php
+function get_buttons(){
+	$str= '';
+	$btns = array(
+		'1'=>'Module',
+		'2'=>'Class',
+	);
+	while (list($k,$v)=each($btns)) {
+		$str.='&nbsp;<input type="submit" value="'.$v.'" name="btn_'.$k.'" id=
+		btn_'.$k.'"/>';
+	}
+	return $str;
+}
+?>
+<link rel="stylesheet" type="text/css" href="style.css">
+<body bgcolor="lightblue">
+<center>
+	<table>
+		<tr>
+			<th>ID</th>
+			<th>First name</th>
+			<th>Last name</th>
+			<th>UID</th>
+		</tr>
+		<?php
+$conn = mysqli_connect("localhost", "root", "", "advancaed");
+if ($conn-> connect_error) {
+	die("Connection failed:".$conn-> connect_error);
+}
+$sql = "SELECT id, fname, lname, uid from module";
+$result = mysqli_query($conn,$sql);
+
+if ($row = mysqli_num_rows($result) > 0) {
+	while ($row = mysqli_fetch_assoc($result)){
+		if(isset($_POST['btn_1'])){
+		echo "<tr><td>". $row['id']."</td><td>" . $row['fname']. "</td><td>". $row['lname']. "</td><td> ". $row['uid'];}
+	}
+	echo "</table>";
+}
+else {
+	echo "0 result";
+}
+		?>
+	</table>
+</center>
+
+</body>
+</html>
